@@ -18,10 +18,8 @@ Adafruit_MPU6050 mpu;
 
 
 #define BT_DISCOVER_TIME  10000
-esp_spp_sec_t sec_mask=ESP_SPP_SEC_NONE; // or ESP_SPP_SEC_ENCRYPT|ESP_SPP_SEC_AUTHENTICATE to request pincode confirmation
-esp_spp_role_t role=ESP_SPP_ROLE_SLAVE; // or ESP_SPP_ROLE_MASTER
-
-// std::map<BTAddress, BTAdvertisedDeviceSet> btDeviceList;
+esp_spp_sec_t sec_mask=ESP_SPP_SEC_NONE; 
+esp_spp_role_t role=ESP_SPP_ROLE_SLAVE; 
 
 void setup() {
   Serial.begin(115200);
@@ -29,15 +27,12 @@ void setup() {
     Serial.println("========== serialBT failed!");
     abort();
   }
-  // SerialBT.setPin("1234"); // doesn't seem to change anything
-  // SerialBT.enableSSP(); // doesn't seem to change anything
-
+  
 
   Serial.println("Starting discoverAsync...");
-  BTScanResults* btDeviceList = SerialBT.getScanResults();  // maybe accessing from different threads!
+  BTScanResults* btDeviceList = SerialBT.getScanResults();  /
   if (SerialBT.discoverAsync([](BTAdvertisedDevice* pDevice) {
-      // BTAdvertisedDeviceSet*set = reinterpret_cast<BTAdvertisedDeviceSet*>(pDevice);
-      // btDeviceList[pDevice->getAddress()] = * set;
+      
       Serial.printf(">>>>>>>>>>>Found a new device asynchronously: %s\n", pDevice->toString().c_str());
     } )
     ) {
@@ -74,8 +69,7 @@ void setup() {
     Serial.println("Error on discoverAsync f.e. not workin after a \"connect\"");
   }
   while (!Serial)
-    delay(10); // will pause Zero, Leonardo, etc until serial console opens
-
+    delay(10); 
   Serial.println("Adafruit MPU6050 test!");
 
   // Try to initialize!
@@ -87,11 +81,11 @@ void setup() {
   }
   Serial.println("MPU6050 Found!");
 
-  //setupt motion detection
+ 
   mpu.setHighPassFilter(MPU6050_HIGHPASS_0_63_HZ);
   mpu.setMotionDetectionThreshold(1);
   mpu.setMotionDetectionDuration(20);
-  mpu.setInterruptPinLatch(true);	// Keep it latched.  Will turn off when reinitialized.
+  mpu.setInterruptPinLatch(true);	
   mpu.setInterruptPinPolarity(true);
   mpu.setMotionInterrupt(true);
 
